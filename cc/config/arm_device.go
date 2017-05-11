@@ -127,7 +127,7 @@ var (
 		"kryo": []string{
 			// Use cortex-a53 because the GNU assembler doesn't recognize -mcpu=kryo
 			// even though clang does.
-			"-mcpu=cortex-a53",
+			"-mcpu=cortex-a57",
 			"-mfpu=neon-fp-armv8",
 			// Fake an ARM compiler flag as these processors support LPAE which GCC/clang
 			// don't advertise.
