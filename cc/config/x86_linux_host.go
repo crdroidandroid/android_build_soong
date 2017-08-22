@@ -50,7 +50,7 @@ var (
 		"-msse3",
 		"-mfpmath=sse",
 		"-m32",
-		"-march=prescott",
+		"-march=native",
 		"-D_FILE_OFFSET_BITS=64",
 		"-D_LARGEFILE_SOURCE=1",
 	}
