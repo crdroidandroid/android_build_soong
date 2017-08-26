@@ -40,6 +40,7 @@ import (
 	"android/soong/zip"
 )
 
+// We default to number of cpus.
 var numJobs = flag.Int("j", 0, "number of parallel jobs [0=autodetect]")
 
 var keepArtifacts = flag.Bool("keep", false, "keep archives of artifacts")
@@ -289,7 +290,7 @@ func main() {
 
 	var jobs = *numJobs
 	if jobs < 1 {
-		jobs = runtime.NumCPU() / 4
+		jobs = runtime.NumCPU()
 
 		ramGb := int(detectTotalRAM() / (1024 * 1024 * 1024))
 		if ramJobs := ramGb / 30; ramGb > 0 && jobs > ramJobs {
