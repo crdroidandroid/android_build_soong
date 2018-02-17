@@ -125,8 +125,6 @@ var (
 			"-D__ARM_FEATURE_LPAE=1",
 		},
 		"kryo": []string{
-			// Use cortex-a53 because the GNU assembler doesn't recognize -mcpu=kryo
-			// even though clang does.
 			"-mcpu=cortex-a57",
 			"-mfpu=neon-fp-armv8",
 			// Fake an ARM compiler flag as these processors support LPAE which GCC/clang
@@ -171,9 +169,10 @@ func init() {
 	android.RegisterArchVariantFeatures(android.Arm, "armv7-a-neon", "neon")
 	android.RegisterArchVariantFeatures(android.Arm, "armv8-a", "neon")
 
-	// Krait is not supported by GCC, but is supported by Clang, so
-	// override the definitions when building modules with Clang.
+	// Krait and Kryo targets are not supported by GCC, but are supported by Clang,
+	// so override the definitions when building modules with Clang.
 	replaceFirst(armClangCpuVariantCflags["krait"], "-mcpu=cortex-a15", "-mcpu=krait")
+	replaceFirst(armClangCpuVariantCflags["kryo"], "-mcpu=cortex-a57", "-mcpu=kryo")
 
 	// The reason we use "-march=armv8-a+crc", instead of "-march=armv8-a", for
 	// gcc is the latter would conflict with any specified/supported -mcpu!
