@@ -36,6 +36,7 @@ var (
 
 	cfiCflags = []string{"-flto", "-fsanitize-cfi-cross-dso",
 		"-fsanitize-blacklist=external/compiler-rt/lib/cfi/cfi_blacklist.txt"}
+	cfiAsflags = []string{"-flto", "-fvisibility=default"}
 	cfiLdflags = []string{"-flto", "-fsanitize-cfi-cross-dso", "-fsanitize=cfi",
 		"-Wl,-plugin-opt,O1"}
 	cfiExportsMapPath  = "build/soong/cc/config/cfi_exports.map"
@@ -406,6 +407,7 @@ func (sanitize *sanitize) flags(ctx ModuleContext, flags Flags) Flags {
 		sanitizers = append(sanitizers, "cfi")
 
 		flags.CFlags = append(flags.CFlags, cfiCflags...)
+		flags.AsFlags = append(flags.AsFlags, cfiAsflags...)
 		// Only append the default visibility flag if -fvisibility has not already been set
 		// to hidden.
 		if !inList("-fvisibility=hidden", flags.CFlags) {
@@ -445,6 +447,7 @@ func (sanitize *sanitize) flags(ctx ModuleContext, flags Flags) Flags {
 		sanitizeArg := "-fsanitize=" + strings.Join(sanitizers, ",")
 
 		flags.CFlags = append(flags.CFlags, sanitizeArg)
+		flags.AsFlags = append(flags.AsFlags, sanitizeArg)
 		if ctx.Host() {
 			flags.CFlags = append(flags.CFlags, "-fno-sanitize-recover=all")
 			flags.LdFlags = append(flags.LdFlags, sanitizeArg)

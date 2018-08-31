@@ -124,6 +124,7 @@ func makeVarsProvider(ctx android.MakeVarsContext) {
 	ctx.Strict("ADDRESS_SANITIZER_CONFIG_EXTRA_STATIC_LIBRARIES", strings.Join(asanLibs, " "))
 
 	ctx.Strict("CFI_EXTRA_CFLAGS", strings.Join(cfiCflags, " "))
+	ctx.Strict("CFI_EXTRA_ASFLAGS", strings.Join(cfiAsflags, " "))
 	ctx.Strict("CFI_EXTRA_LDFLAGS", strings.Join(cfiLdflags, " "))
 
 	ctx.Strict("INTEGER_OVERFLOW_EXTRA_CFLAGS", strings.Join(intOverflowCflags, " "))
