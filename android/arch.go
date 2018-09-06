@@ -1096,11 +1096,11 @@ func getCommonTargets(targets []Target) []Target {
 	return ret
 }
 
-func preferTargets(targets []Target, filters ...string) []Target {
+func firstTarget(targets []Target, filters ...string) []Target {
 	for _, filter := range filters {
 		buildTargets := filterMultilibTargets(targets, filter)
 		if len(buildTargets) > 0 {
-			return buildTargets
+			return buildTargets[:1]
 		}
 	}
 	return nil
@@ -1116,9 +1116,9 @@ func decodeMultilib(multilib string, targets []Target, prefer32 bool) ([]Target,
 	case "common_first":
 		buildTargets = getCommonTargets(targets)
 		if prefer32 {
-			buildTargets = append(buildTargets, preferTargets(targets, "lib32", "lib64")...)
+			buildTargets = append(buildTargets, firstTarget(targets, "lib32", "lib64")...)
 		} else {
-			buildTargets = append(buildTargets, preferTargets(targets, "lib64", "lib32")...)
+			buildTargets = append(buildTargets, firstTarget(targets, "lib64", "lib32")...)
 		}
 	case "both":
 		if prefer32 {
@@ -1134,12 +1134,15 @@ func decodeMultilib(multilib string, targets []Target, prefer32 bool) ([]Target,
 		buildTargets = filterMultilibTargets(targets, "lib64")
 	case "first":
 		if prefer32 {
-			buildTargets = preferTargets(targets, "lib32", "lib64")
+			buildTargets = firstTarget(targets, "lib32", "lib64")
 		} else {
-			buildTargets = preferTargets(targets, "lib64", "lib32")
+			buildTargets = firstTarget(targets, "lib64", "lib32")
 		}
 	case "prefer32":
-		buildTargets = preferTargets(targets, "lib32", "lib64")
+		buildTargets = filterMultilibTargets(targets, "lib32")
+		if len(buildTargets) == 0 {
+			buildTargets = filterMultilibTargets(targets, "lib64")
+		}
 	default:
 		return nil, fmt.Errorf(`compile_multilib must be "both", "first", "32", "64", or "prefer32" found %q`,
 			multilib)
