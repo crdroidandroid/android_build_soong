@@ -41,11 +41,12 @@ var (
 
 	armArmCflags = []string{
 		"-fstrict-aliasing",
+		"-O3",
 	}
 
 	armThumbCflags = []string{
 		"-mthumb",
-		"-Os",
+		"-O3",
 	}
 
 	armArchVariantCflags = map[string][]string{

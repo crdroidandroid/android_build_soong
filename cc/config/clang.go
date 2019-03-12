@@ -142,6 +142,8 @@ func init() {
 
 	pctx.StaticVariable("ClangExtraTargetCflags", strings.Join([]string{
 		"-nostdlibinc",
+		"-O3",
+		"-g0",
 	}, " "))
 
 	pctx.StaticVariable("ClangExtraNoOverrideCflags", strings.Join([]string{
