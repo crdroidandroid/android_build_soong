@@ -115,6 +115,9 @@ var cpuVariants = map[ArchType][]string{
 }
 
 var archFeatures = map[ArchType][]string{
+	Arm: {
+		"aarch32",
+	},
 	Arm64: {
 		"dotprod",
 	},
@@ -144,6 +147,14 @@ var archFeatures = map[ArchType][]string{
 }
 
 var androidArchFeatureMap = map[ArchType]map[string][]string{
+	Arm: {
+		"armv8-a": {
+			"aarch32",
+		},
+		"armv8-2a": {
+			"aarch32",
+		},
+	},
 	Arm64: {
 		"armv8-2a-dotprod": {
 			"dotprod",
