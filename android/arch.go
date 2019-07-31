@@ -189,6 +189,7 @@ var archVariants = map[ArchType][]string{
 var archFeatures = map[ArchType][]string{
 	Arm: {
 		"neon",
+		"aarch32",
 	},
 	Mips: {
 		"dspr2",
@@ -231,9 +232,11 @@ var archFeatureMap = map[ArchType]map[string][]string{
 		},
 		"armv8-a": {
 			"neon",
+			"aarch32",
 		},
 		"armv8-2a": {
 			"neon",
+			"aarch32",
 		},
 	},
 	Mips: {
