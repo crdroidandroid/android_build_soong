@@ -112,6 +112,7 @@ var cpuVariants = map[ArchType][]string{
 
 var archFeatures = map[ArchType][]string{
 	Arm: {
+		"aarch32",
 		"neon",
 	},
 	Arm64: {
@@ -148,9 +149,11 @@ var androidArchFeatureMap = map[ArchType]map[string][]string{
 			"neon",
 		},
 		"armv8-a": {
+			"aarch32",
 			"neon",
 		},
 		"armv8-2a": {
+			"aarch32",
 			"neon",
 		},
 	},
