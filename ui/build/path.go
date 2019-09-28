@@ -131,12 +131,7 @@ func SetupPath(ctx Context, config Config) {
 		execs = append(execs, parsePathDir(pathEntry)...)
 	}
 
-	allowAllSymlinks := config.Environment().IsEnvTrue("TEMPORARY_DISABLE_PATH_RESTRICTIONS")
 	for _, name := range execs {
-		if !paths.GetConfig(name).Symlink && !allowAllSymlinks {
-			continue
-		}
-
 		err := os.Symlink("../.path_interposer", filepath.Join(myPath, name))
 		// Intentionally ignore existing files -- that means that we
 		// just created it, and the first one should win.
