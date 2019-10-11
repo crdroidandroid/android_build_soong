@@ -184,6 +184,7 @@ type Flags struct {
 
 	Toolchain    config.Toolchain
 	Tidy         bool
+	Polly        bool
 	GcovCoverage bool
 	SAbiDump     bool
 	EmitXrefs    bool // If true, generate Ninja rules to generate emitXrefs input files for Kythe
@@ -208,6 +209,9 @@ type Flags struct {
 type BaseProperties struct {
 	// Deprecated. true is the default, false is invalid.
 	Clang *bool `android:"arch_variant"`
+
+	// compile module using polly
+	Polly *bool `android:"arch_variant"`
 
 	// Minimum sdk version supported when compiling against the ndk. Setting this property causes
 	// two variants to be built, one for the platform and one for apps.
@@ -440,6 +444,10 @@ var (
 	runtimeDepTag         = DependencyTag{Name: "runtime lib"}
 	coverageDepTag        = DependencyTag{Name: "coverage"}
 	testPerSrcDepTag      = DependencyTag{Name: "test_per_src"}
+	pollyDisabledTarget   = []string{"libblas", "libF77blas", "libneuralnetworks_common", "libpdfium-font",
+					 "libpdfium-libopenjpeg2", "libtextclassifier", "libtflite", "libtflite_static",
+					 "libtflite_kernels", "libyuv"}
+	pollyDisabledHost     = []string{"bsdiff", "libdivsufsort", "libdivsufsort64"}
 )
 
 func IsSharedDepTag(depTag blueprint.DependencyTag) bool {
@@ -1465,6 +1473,7 @@ func (c *Module) GenerateAndroidBuildActions(actx android.ModuleContext) {
 
 	flags := Flags{
 		Toolchain: c.toolchain(ctx),
+		Polly:	   c.polly(ctx),
 		EmitXrefs: ctx.Config().EmitXrefRules(),
 	}
 	if c.compiler != nil {
@@ -2173,6 +2182,24 @@ func checkDoubleLoadableLibraries(ctx android.TopDownMutatorContext) {
 			}
 		}
 	}
+}
+
+func (c *Module) polly(ctx BaseModuleContext) bool {
+	polly := Bool(c.Properties.Polly)
+
+	if inList(ctx.baseModuleName(), pollyDisabledHost) {
+		return false
+	}
+
+	if inList(ctx.baseModuleName(), pollyDisabledTarget) {
+		return false
+	}
+
+	if c.Properties.Polly == nil && config.Polly {
+		return true
+	}
+
+	return polly
 }
 
 // Convert dependencies to paths.  Returns a PathDeps containing paths

@@ -188,6 +188,10 @@ func makeVarsProvider(ctx android.MakeVarsContext) {
 	if len(deviceTargets) > 1 {
 		makeVarsToolchain(ctx, "2ND_", deviceTargets[1])
 	}
+
+	if config.Polly {
+		ctx.Strict("POLLY_FLAGS", "${config.PollyFlags}")
+	}
 }
 
 func makeVarsToolchain(ctx android.MakeVarsContext, secondPrefix string,

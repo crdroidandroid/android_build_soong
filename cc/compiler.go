@@ -238,6 +238,10 @@ func (compiler *baseCompiler) compilerDeps(ctx DepsContext, deps Deps) Deps {
 		deps.StaticLibs = append(deps.StaticLibs, "libomp")
 	}
 
+	if compiler.flags.polly {
+		deps.StaticLibs = append(deps.StaticLibs, "libomp")
+	}
+
 	return deps
 }
 
@@ -523,6 +527,10 @@ func (compiler *baseCompiler) compilerFlags(ctx ModuleContext, flags Flags, deps
 	//TODO(b/145621474): Move this check into IInterface.h when clang-tidy no longer uses absolute paths.
 	if android.HasAnyPrefix(ctx.ModuleDir(), allowedManualInterfacePaths) {
 		flags.Local.CFlags = append(flags.Local.CFlags, "-DDO_NOT_CHECK_MANUAL_BINDER_INTERFACES")
+	}
+
+	if flags.Polly {
+		flags.Local.CFlags = append(flags.Local.CFlags, "-fopenmp")
 	}
 
 	return flags

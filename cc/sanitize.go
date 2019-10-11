@@ -610,6 +610,9 @@ func (sanitize *sanitize) flags(ctx ModuleContext, flags Flags) Flags {
 		flags.CFlagsDeps = append(flags.CFlagsDeps, blacklist.Path())
 	}
 
+	// Disable integer for ubsan minimal (not allowed with r404163)
+	flags.Local.CFlags = append(flags.Local.CFlags, "-fno-sanitize=integer")
+
 	return flags
 }
 

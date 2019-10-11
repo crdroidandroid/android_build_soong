@@ -84,6 +84,7 @@ func flagsToBuilderFlags(in Flags) builderFlags {
 		toolchain:     in.Toolchain,
 		gcovCoverage:  in.GcovCoverage,
 		tidy:          in.Tidy,
+		polly:         in.Polly,
 		sAbiDump:      in.SAbiDump,
 		emitXrefs:     in.EmitXrefs,
 

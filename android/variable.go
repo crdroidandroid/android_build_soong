@@ -261,6 +261,9 @@ type productVariables struct {
 	ProductPath   *string `json:",omitempty"`
 	SystemExtPath *string `json:",omitempty"`
 
+	CustomClangVersion      *string `json:",omitempty"`
+	CustomClangShortVersion *string `json:",omitempty"`
+
 	ClangTidy  *bool   `json:",omitempty"`
 	TidyChecks *string `json:",omitempty"`
 
