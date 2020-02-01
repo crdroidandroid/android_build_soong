@@ -152,8 +152,7 @@ var (
 			"-D__ARM_FEATURE_LPAE=1",
 		},
 		"kryo385": []string{
-			// Use cortex-a53 because kryo385 is not supported in GCC/clang.
-			"-mcpu=cortex-a53",
+			"-mcpu=cortex-a55",
 			// Fake an ARM compiler flag as these processors support LPAE which GCC/clang
 			// don't advertise.
 			// TODO This is a hack and we need to add it for each processor that supports LPAE until some
@@ -215,6 +214,8 @@ func init() {
 		strings.Join(armClangCpuVariantCflags["krait"], " "))
 	pctx.StaticVariable("ArmClangKryoCflags",
 		strings.Join(armClangCpuVariantCflags["kryo"], " "))
+	pctx.StaticVariable("ArmClangKryo385Cflags",
+		strings.Join(armClangCpuVariantCflags["kryo385"], " "))
 }
 
 var (
@@ -239,7 +240,7 @@ var (
 		"cortex-a76":     "${config.ArmClangCortexA55Cflags}",
 		"krait":          "${config.ArmClangKraitCflags}",
 		"kryo":           "${config.ArmClangKryoCflags}",
-		"kryo385":        "${config.ArmClangCortexA53Cflags}",
+		"kryo385":        "${config.ArmClangKryo385Cflags}",
 		"exynos-m1":      "${config.ArmClangCortexA53Cflags}",
 		"exynos-m2":      "${config.ArmClangCortexA53Cflags}",
 	}
