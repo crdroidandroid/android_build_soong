@@ -89,7 +89,7 @@ var (
 
 	deviceGlobalLldflags = append(ClangFilterUnknownLldflags(deviceGlobalLdflags),
 		[]string{
-			"-fuse-ld=lld",
+			"-fuse-ld=lld -O2",
 		}...)
 
 	hostGlobalCflags = []string{}
@@ -98,7 +98,7 @@ var (
 
 	hostGlobalLdflags = []string{}
 
-	hostGlobalLldflags = []string{"-fuse-ld=lld"}
+	hostGlobalLldflags = []string{"-fuse-ld=lld -O2"}
 
 	commonGlobalCppflags = []string{
 		"-Wsign-promo",
