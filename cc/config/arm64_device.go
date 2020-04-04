@@ -40,10 +40,8 @@ var (
 	}
 
 	arm64Ldflags = []string{
-		"-Wl,-m,aarch64_elf64_le_vec",
 		"-Wl,--hash-style=gnu",
 		"-Wl,-z,separate-code",
-		"-fuse-ld=gold",
 		"-Wl,--icf=safe",
 	}
 
