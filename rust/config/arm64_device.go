@@ -34,6 +34,7 @@ var (
 	Arm64ArchVariantRustFlags = map[string][]string{
 		"armv8-a":  []string{},
 		"armv8-2a": []string{},
+		"armv8-2a-dotprod": []string{},
 	}
 )
 
