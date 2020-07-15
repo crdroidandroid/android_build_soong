@@ -42,7 +42,6 @@ var ClangUnknownCflags = sorted([]string{
 	"-Wno-literal-suffix",
 	"-Wno-maybe-uninitialized",
 	"-Wno-old-style-declaration",
-	"-Wno-psabi",
 	"-Wno-unused-but-set-parameter",
 	"-Wno-unused-but-set-variable",
 	"-Wno-unused-local-typedefs",
@@ -100,7 +99,9 @@ var ClangLibToolingUnknownCflags = sorted([]string{})
 // updated, some checks enabled by this module may be disabled if they have
 // become more strict, or if they are a new match for a wildcard group like
 // `modernize-*`.
-var ClangTidyDisableChecks = []string{}
+var ClangTidyDisableChecks = []string{
+	"misc-no-recursion",
+}
 
 func init() {
 	pctx.StaticVariable("ClangExtraCflags", strings.Join([]string{
@@ -228,6 +229,9 @@ func init() {
 		"-Wno-xor-used-as-pow",
 		// http://b/145211022
 		"-Wno-final-dtor-non-final-class",
+
+		// http://b/165945989
+		"-Wno-psabi",
 	}, " "))
 }
 
