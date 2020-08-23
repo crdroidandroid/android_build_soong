@@ -124,6 +124,8 @@ var Configuration = map[string]PathConfig{
 	// Host toolchain is removed. In-tree toolchain should be used instead.
 	// GCC also can't find cc1 with this implementation.
 	"ar":         Forbidden,
+	"arm-linux-androidkernel-as":         Forbidden,
+	"arm-linux-androidkernel-ld":         Forbidden,
 	"as":         Forbidden,
 	"cc":         Forbidden,
 	"clang":      Forbidden,
