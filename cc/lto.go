@@ -133,7 +133,7 @@ func (lto *lto) flags(ctx BaseModuleContext, flags Flags) Flags {
 
 // Can be called with a null receiver
 func (lto *lto) LTO() bool {
-	if lto == nil || lto.Disabled() {
+	if lto == nil || lto.Never() {
 		return false
 	}
 
@@ -146,7 +146,7 @@ func (lto *lto) FullLTO() bool {
 
 func (lto *lto) ThinLTO() bool {
 	if Bool(lto.Properties.GlobalThin) {
-		if !lto.Disabled() && !lto.FullLTO() {
+		if !lto.Never() && !lto.FullLTO() {
 			return true
 		}
 	}
@@ -155,8 +155,8 @@ func (lto *lto) ThinLTO() bool {
 }
 
 // Is lto.never explicitly set to true?
-func (lto *lto) Disabled() bool {
-	return lto.Properties.Lto.Never != nil && *lto.Properties.Lto.Never
+func (lto *lto) Never() bool {
+	return Bool(lto.Properties.Lto.Never)
 }
 
 // Propagate lto requirements down from binaries
@@ -173,7 +173,7 @@ func ltoDepsMutator(mctx android.TopDownMutatorContext) {
 			switch tag {
 			case StaticDepTag, staticExportDepTag, lateStaticDepTag, wholeStaticDepTag, objDepTag, reuseObjTag:
 				if dep, ok := dep.(*Module); ok && dep.lto != nil &&
-					!dep.lto.Disabled() {
+					!dep.lto.Never() {
 					if full && !dep.lto.FullLTO() {
 						dep.lto.Properties.FullDep = true
 					}
