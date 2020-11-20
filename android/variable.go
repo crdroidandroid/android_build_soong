@@ -49,6 +49,10 @@ type variableProperties struct {
 			Exclude_static_libs []string `android:"arch_variant"`
 		} `android:"arch_variant"`
 
+		Product_shipping_api_level struct {
+			Cflags  []string
+		}
+
 		Safestack struct {
 			Cflags []string `android:"arch_variant"`
 		} `android:"arch_variant"`
@@ -207,6 +211,7 @@ type productVariables struct {
 	Unbundled_build                  *bool `json:",omitempty"`
 	Unbundled_build_sdks_from_source *bool `json:",omitempty"`
 	Malloc_not_svelte                *bool `json:",omitempty"`
+	Product_shipping_api_level       *int  `json:",omitempty"`
 	Safestack                        *bool `json:",omitempty"`
 	HostStaticBinaries               *bool `json:",omitempty"`
 	Binder32bit                      *bool `json:",omitempty"`
