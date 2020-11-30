@@ -101,6 +101,7 @@ var ClangLibToolingUnknownCflags = sorted([]string{})
 // `modernize-*`.
 var ClangTidyDisableChecks = []string{
 	"misc-no-recursion",
+	"readability-function-cognitive-complexity", // http://b/175055536
 }
 
 func init() {
@@ -207,6 +208,8 @@ func init() {
 		"-Wno-void-pointer-to-enum-cast",
 		// Added for r404163
 		"-Wno-compound-token-split-by-space",
+		// New warnings to be fixed after clang-r407598
+		"-Wno-string-concatenation", // http://b/175068488
 	}, " "))
 
 	// Extra cflags for external third-party projects to disable warnings that

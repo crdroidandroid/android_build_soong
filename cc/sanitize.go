@@ -441,6 +441,22 @@ func toDisableImplicitIntegerChange(flags []string) bool {
 	return false
 }
 
+func toDisableUnsignedShiftBaseChange(flags []string) bool {
+	// Returns true if any flag is fsanitize*integer, and there is
+	// no explicit flag about sanitize=unsigned-shift-base.
+	for _, f := range flags {
+		if strings.Contains(f, "sanitize=unsigned-shift-base") {
+			return false
+		}
+	}
+	for _, f := range flags {
+		if strings.HasPrefix(f, "-fsanitize") && strings.Contains(f, "integer") {
+			return true
+		}
+	}
+	return false
+}
+
 func (sanitize *sanitize) flags(ctx ModuleContext, flags Flags) Flags {
 	minimalRuntimeLib := config.UndefinedBehaviorSanitizerMinimalRuntimeLibrary(ctx.toolchain()) + ".a"
 	minimalRuntimePath := "${config.ClangAsanLibDir}/" + minimalRuntimeLib
@@ -587,6 +603,10 @@ func (sanitize *sanitize) flags(ctx ModuleContext, flags Flags) Flags {
 		if toDisableImplicitIntegerChange(flags.Local.CFlags) {
 			flags.Local.CFlags = append(flags.Local.CFlags, "-fno-sanitize=implicit-integer-sign-change")
 		}
+		// http://b/171275751, Android doesn't build with this sanitizer yet.
+		if toDisableUnsignedShiftBaseChange(flags.Local.CFlags) {
+			flags.Local.CFlags = append(flags.Local.CFlags, "-fno-sanitize=unsigned-shift-base")
+		}
 	}
 
 	if len(sanitize.Properties.DiagSanitizers) > 0 {
@@ -609,9 +629,6 @@ func (sanitize *sanitize) flags(ctx ModuleContext, flags Flags) Flags {
 		flags.Local.CFlags = append(flags.Local.CFlags, "-fsanitize-blacklist="+blacklist.String())
 		flags.CFlagsDeps = append(flags.CFlagsDeps, blacklist.Path())
 	}
-
-	// Disable integer for ubsan minimal (not allowed with r404163)
-	flags.Local.CFlags = append(flags.Local.CFlags, "-fno-sanitize=integer")
 
 	return flags
 }
