@@ -73,9 +73,9 @@ var (
 			"-mcpu=cortex-a55",
 		},
 		"cortex-a76": []string{
-			// Use the cortex-a55 since it is similar to the little
-			// core (cortex-a55) and is sensitive to ordering.
-			"-mcpu=cortex-a55",
+			// Use the cortex-a75 because some AOSP repos still use
+			// -no-integrated-as and binutils doesn't know the a76.
+			"-mcpu=cortex-a75",
 		},
 		"kryo": []string{
 			"-mcpu=kryo",
@@ -119,6 +119,7 @@ func init() {
 	exportedVars.ExportStringListStaticVariable("Arm64CortexA510Cflags", arm64CpuVariantCflags["cortex-a510"])
 	exportedVars.ExportStringListStaticVariable("Arm64CortexA53Cflags", arm64CpuVariantCflags["cortex-a53"])
 	exportedVars.ExportStringListStaticVariable("Arm64CortexA55Cflags", arm64CpuVariantCflags["cortex-a55"])
+	exportedVars.ExportStringListStaticVariable("Arm64CortexA76Cflags", arm64CpuVariantCflags["cortex-a76"])
 	exportedVars.ExportStringListStaticVariable("Arm64KryoCflags", arm64CpuVariantCflags["kryo"])
 	exportedVars.ExportStringListStaticVariable("Arm64ExynosM1Cflags", arm64CpuVariantCflags["exynos-m1"])
 	exportedVars.ExportStringListStaticVariable("Arm64ExynosM2Cflags", arm64CpuVariantCflags["exynos-m2"])
@@ -142,7 +143,7 @@ var (
 		"cortex-a72": "${config.Arm64CortexA53Cflags}",
 		"cortex-a73": "${config.Arm64CortexA53Cflags}",
 		"cortex-a75": "${config.Arm64CortexA55Cflags}",
-		"cortex-a76": "${config.Arm64CortexA55Cflags}",
+		"cortex-a76": "${config.Arm64CortexA76Cflags}",
 		"kryo":       "${config.Arm64KryoCflags}",
 		"kryo385":    "${config.Arm64CortexA53Cflags}",
 		"exynos-m1":  "${config.Arm64ExynosM1Cflags}",
