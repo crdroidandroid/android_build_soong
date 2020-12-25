@@ -103,6 +103,7 @@ var Configuration = map[string]PathConfig{
 	"python3.6": Allowed,
 	"python3.7": Allowed,
 	"python3.8": Allowed,
+	"python3.9": Allowed,
 	"repo":    Allowed,
 	"rsync":   Allowed,
 	"sh":      Allowed,
