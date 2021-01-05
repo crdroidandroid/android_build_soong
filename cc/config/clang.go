@@ -99,6 +99,9 @@ var ClangLibToolingUnknownCflags = sorted([]string{})
 // `modernize-*`.
 var ClangTidyDisableChecks = []string{
 	"misc-no-recursion",
+	"performance-noexcept-move-constructor",
+	"performance-no-int-to-ptr",
+	"performance-unnecessary-value-param",
 	"readability-function-cognitive-complexity", // http://b/175055536
 }
 
