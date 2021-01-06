@@ -77,8 +77,9 @@ var (
 			"-mcpu=kryo",
 		},
 		"kryo385": []string{
-			// Use cortex-a53 because kryo385 is not supported in clang.
-			"-mcpu=cortex-a53",
+			// Use cortex-a75 because kryo385 is not supported in GCC/clang.
+			// kryo385 does not support dot product feature.
+			"-mcpu=cortex-a75+nodotprod",
 		},
 		"exynos-m1": []string{
 			"-mcpu=exynos-m1",
@@ -125,6 +126,7 @@ func init() {
 	exportedVars.ExportStringListStaticVariable("Arm64CortexA55Cflags", arm64CpuVariantCflags["cortex-a55"])
 	exportedVars.ExportStringListStaticVariable("Arm64CortexA76Cflags", arm64CpuVariantCflags["cortex-a76"])
 	exportedVars.ExportStringListStaticVariable("Arm64KryoCflags", arm64CpuVariantCflags["kryo"])
+	exportedVars.ExportStringListStaticVariable("Arm64Kryo385Cflags", arm64CpuVariantCflags["kryo385"])
 	exportedVars.ExportStringListStaticVariable("Arm64ExynosM1Cflags", arm64CpuVariantCflags["exynos-m1"])
 	exportedVars.ExportStringListStaticVariable("Arm64ExynosM2Cflags", arm64CpuVariantCflags["exynos-m2"])
 
@@ -149,7 +151,7 @@ var (
 		"cortex-a75": "${config.Arm64CortexA55Cflags}",
 		"cortex-a76": "${config.Arm64CortexA76Cflags}",
 		"kryo":       "${config.Arm64KryoCflags}",
-		"kryo385":    "${config.Arm64CortexA53Cflags}",
+		"kryo385":    "${config.Arm64Kryo385Cflags}",
 		"exynos-m1":  "${config.Arm64ExynosM1Cflags}",
 		"exynos-m2":  "${config.Arm64ExynosM2Cflags}",
 	}
