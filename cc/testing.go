@@ -98,6 +98,14 @@ func GatherRequiredDepsForTest(oses ...android.OsType) string {
 		}
 
 		toolchain_library {
+			name: "libunwind",
+			vendor_available: true,
+			recovery_available: true,
+			native_bridge_supported: true,
+			src: "",
+		}
+
+		toolchain_library {
 			name: "libclang_rt.fuzzer-arm-android",
 			vendor_available: true,
 			recovery_available: true,

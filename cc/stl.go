@@ -156,11 +156,7 @@ func needsLibAndroidSupport(ctx BaseModuleContext) bool {
 }
 
 func staticUnwinder(ctx android.BaseModuleContext) string {
-	if ctx.Arch().ArchType == android.Arm {
-		return "libunwind_llvm"
-	} else {
-		return "libgcc_stripped"
-	}
+	return "libunwind"
 }
 
 func (stl *stl) deps(ctx BaseModuleContext, deps Deps) Deps {
@@ -208,6 +204,7 @@ func (stl *stl) deps(ctx BaseModuleContext, deps Deps) Deps {
 		if needsLibAndroidSupport(ctx) {
 			deps.StaticLibs = append(deps.StaticLibs, "ndk_libandroid_support")
 		}
+		// TODO: Switch the NDK over to the LLVM unwinder for non-arm32 architectures.
 		if ctx.Arch().ArchType == android.Arm {
 			deps.StaticLibs = append(deps.StaticLibs, "ndk_libunwind")
 		} else {
@@ -256,10 +253,6 @@ func (stl *stl) flags(ctx ModuleContext, flags Flags) Flags {
 					"-D_LIBCXXABI_DISABLE_VISIBILITY_ANNOTATIONS",
 					// Use Win32 threads in libc++.
 					"-D_LIBCPP_HAS_THREAD_API_WIN32")
-			}
-		} else {
-			if ctx.Arch().ArchType == android.Arm {
-				flags.Local.LdFlags = append(flags.Local.LdFlags, "-Wl,--exclude-libs,libunwind_llvm.a")
 			}
 		}
 	case "libstdc++":
