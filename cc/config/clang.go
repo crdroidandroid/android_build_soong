@@ -98,6 +98,7 @@ var ClangLibToolingUnknownCflags = sorted([]string{})
 // become more strict, or if they are a new match for a wildcard group like
 // `modernize-*`.
 var ClangTidyDisableChecks = []string{
+	"cert-sig30-c",
 	"misc-no-recursion",
 	"performance-noexcept-move-constructor",
 	"performance-no-int-to-ptr",
