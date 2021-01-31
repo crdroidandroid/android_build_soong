@@ -236,6 +236,8 @@ func init() {
 
 		// http://b/165945989
 		"-Wno-psabi",
+
+		"-Wno-unknown-warning-option",
 	}, " "))
 }
 
