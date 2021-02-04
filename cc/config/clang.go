@@ -148,6 +148,9 @@ func init() {
 		// Warnings from clang-10
 		// Nested and array designated initialization is nice to have.
 		"-Wno-c99-designator",
+
+		// Warnings from clang-12
+		"-Wno-gnu-folding-constant",
 	}, " "))
 
 	pctx.StaticVariable("ClangExtraCppflags", strings.Join([]string{
