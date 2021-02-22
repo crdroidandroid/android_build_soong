@@ -194,6 +194,9 @@ func (j *Module) r8Flags(ctx android.ModuleContext, flags javaBuilderFlags) (r8F
 		r8Flags = append(r8Flags, "--debug")
 	}
 
+	// TODO(b/180878971): missing classes should be added to the relevant builds.
+	r8Flags = append(r8Flags, "-ignorewarnings")
+
 	return r8Flags, r8Deps
 }
 
