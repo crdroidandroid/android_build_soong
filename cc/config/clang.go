@@ -144,6 +144,7 @@ func init() {
 
 		// Warnings from clang-12
 		"-Wno-gnu-folding-constant",
+		"-Wno-compound-token-split-by-macro",
 
 		// Calls to the APIs that are newer than the min sdk version of the caller should be
 		// guarded with __builtin_available.
