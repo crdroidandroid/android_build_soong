@@ -151,6 +151,7 @@ func init() {
 
 		// Warnings from clang-12
 		"-Wno-gnu-folding-constant",
+		"-Wno-compound-token-split-by-macro",
 	}, " "))
 
 	pctx.StaticVariable("ClangExtraCppflags", strings.Join([]string{
