@@ -683,7 +683,7 @@ func makeApexAvailableBaseline() map[string][]string {
 		"libprofile-clang-extras_ndk",
 		"libprofile-extras",
 		"libprofile-extras_ndk",
-		"libunwind",
+		"libunwind_llvm",
 	}
 	return m
 }
