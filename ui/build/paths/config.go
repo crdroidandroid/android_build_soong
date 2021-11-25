@@ -75,6 +75,10 @@ func GetConfig(name string) PathConfig {
 
 var Configuration = map[string]PathConfig{
 	"bash":    Allowed,
+	"brotli":  Allowed,
+	"ccache":  Allowed,
+	"cpio":    Allowed,
+	"date":    Allowed,
 	"dd":      Allowed,
 	"diff":    Allowed,
 	"dlv":     Allowed,
@@ -89,10 +93,19 @@ var Configuration = map[string]PathConfig{
 	"locale":  Allowed,
 	"lsof":    Allowed,
 	"openssl": Allowed,
+	"patch":   Allowed,
+	"pkg-config": Allowed,
 	"pstree":  Allowed,
+	"python3": Allowed,
+	"python3.6": Allowed,
+	"python3.7": Allowed,
+	"python3.8": Allowed,
+	"python3.9": Allowed,
+	"repo":    Allowed,
 	"rsync":   Allowed,
 	"sh":      Allowed,
 	"stubby":  Allowed,
+	"tar":     Allowed,
 	"tr":      Allowed,
 	"unzip":   Allowed,
 	"zip":     Allowed,
@@ -109,7 +122,6 @@ var Configuration = map[string]PathConfig{
 	"ld":         Forbidden,
 	"ld.bfd":     Forbidden,
 	"ld.gold":    Forbidden,
-	"pkg-config": Forbidden,
 
 	// These are toybox tools that only work on Linux.
 	"pgrep": LinuxOnlyPrebuilt,
