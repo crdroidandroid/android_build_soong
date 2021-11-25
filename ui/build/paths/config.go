@@ -87,9 +87,11 @@ func GetConfig(name string) PathConfig {
 // run during the build. For more documentation, see path_interposer.go .
 var Configuration = map[string]PathConfig{
 	"bash":        Allowed,
+	"date":        Allowed,
 	"diff":        Allowed,
 	"dlv":         Allowed,
 	"expr":        Allowed,
+	"flock":       Allowed,
 	"fuser":       Allowed,
 	"gcert":       Allowed,
 	"gcertstatus": Allowed,
@@ -106,6 +108,7 @@ var Configuration = map[string]PathConfig{
 	"rsync":       Allowed,
 	"sh":          Allowed,
 	"stubby":      Allowed,
+	"tar":         Allowed,
 	"tr":          Allowed,
 	"unzip":       Allowed,
 	"zip":         Allowed,
