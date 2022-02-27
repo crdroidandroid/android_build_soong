@@ -93,6 +93,7 @@ var cpuVariants = map[ArchType][]string{
 		"exynos-m2",
 	},
 	Arm64: {
+		"cortex-a510",
 		"cortex-a53",
 		"cortex-a55",
 		"cortex-a72",
