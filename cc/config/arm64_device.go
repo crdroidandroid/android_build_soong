@@ -39,7 +39,7 @@ var (
 			"-march=armv8.2-a",
 		},
 		"armv8-2a-dotprod": []string{
-			"-march=armv8.2-a+dotprod",
+			"-march=armv8.2-a+lse+fp16+dotprod",
 		},
 		// On ARMv9 and later, Pointer Authentication Codes (PAC) are mandatory,
 		// so -fstack-protector is unnecessary.
