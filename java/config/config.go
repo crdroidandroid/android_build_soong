@@ -85,6 +85,8 @@ func init() {
 		`-JXX:OnError="cat hs_err_pid%p.log"`,
 		"-JXX:CICompilerCount=6",
 		"-JXX:+UseDynamicNumberOfGCThreads",
+		// Disable this optimization as it can impact weak reference semantics. See b/233432839.
+		"-JDcom.android.tools.r8.disableEnqueuerDeferredTracing=true",
 	})
 
 	exportedVars.ExportStringListStaticVariable("CommonJdkFlags", []string{
