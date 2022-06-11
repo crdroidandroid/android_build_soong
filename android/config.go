@@ -1100,7 +1100,7 @@ func (c *config) EnableCFI() bool {
 }
 
 func (c *config) DisableScudo() bool {
-	return Bool(c.productVariables.DisableScudo)
+	return !Bool(c.productVariables.Malloc_use_scudo)
 }
 
 func (c *config) Android64() bool {
