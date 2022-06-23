@@ -44,7 +44,7 @@ var (
 		"-fno-exceptions",
 		"-Wno-multichar",
 
-		"-O2",
+		"-O3",
 		"-g",
 		"-fdebug-info-for-profiling",
 
