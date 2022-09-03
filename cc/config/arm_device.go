@@ -139,7 +139,7 @@ var (
 			"-D__ARM_FEATURE_LPAE=1",
 		},
 		"cortex-a76": []string{
-			"-mcpu=cortex-a55",
+			"-mcpu=cortex-a75",
 			"-mfpu=neon-fp-armv8",
 			// Fake an ARM compiler flag as these processors support LPAE which clang
 			// don't advertise.
@@ -221,6 +221,7 @@ func init() {
 	exportedVars.ExportStringListStaticVariable("ArmCortexA32Cflags", armCpuVariantCflags["cortex-a32"])
 	exportedVars.ExportStringListStaticVariable("ArmCortexA53Cflags", armCpuVariantCflags["cortex-a53"])
 	exportedVars.ExportStringListStaticVariable("ArmCortexA55Cflags", armCpuVariantCflags["cortex-a55"])
+	exportedVars.ExportStringListStaticVariable("ArmCortexA76Cflags", armCpuVariantCflags["cortex-a76"])
 	exportedVars.ExportStringListStaticVariable("ArmKraitCflags", armCpuVariantCflags["krait"])
 	exportedVars.ExportStringListStaticVariable("ArmKryoCflags", armCpuVariantCflags["kryo"])
 }
@@ -246,7 +247,7 @@ var (
 		"cortex-a72":     "${config.ArmCortexA53Cflags}",
 		"cortex-a73":     "${config.ArmCortexA53Cflags}",
 		"cortex-a75":     "${config.ArmCortexA55Cflags}",
-		"cortex-a76":     "${config.ArmCortexA55Cflags}",
+		"cortex-a76":     "${config.ArmCortexA76Cflags}",
 		"krait":          "${config.ArmKraitCflags}",
 		"kryo":           "${config.ArmKryoCflags}",
 		"kryo385":        "${config.ArmCortexA53Cflags}",
