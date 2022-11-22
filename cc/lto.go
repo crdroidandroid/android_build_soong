@@ -135,6 +135,8 @@ func (lto *lto) flags(ctx BaseModuleContext, flags Flags) Flags {
 		if !ctx.isPgoCompile() && !ctx.isAfdoCompile() {
 			flags.Local.LdFlags = append(flags.Local.LdFlags,
 				"-Wl,-plugin-opt,-import-instr-limit=5")
+			flags.Local.LdFlags = append(flags.Local.LdFlags,
+				"-Wl,--lto-O3")
 		}
 	}
 	return flags
