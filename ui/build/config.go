@@ -894,6 +894,10 @@ func (c *configImpl) SoongOutDir() string {
 	return filepath.Join(c.OutDir(), "soong")
 }
 
+func (c *configImpl) DeviceSoongOutDir() string {
+	return filepath.Join(c.OutDir(), "soong", c.TargetDevice())
+}
+
 func (c *configImpl) PrebuiltOS() string {
 	switch runtime.GOOS {
 	case "linux":
