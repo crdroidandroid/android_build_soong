@@ -359,6 +359,10 @@ func (c *Cmd) wrapSandbox() {
 		}
 	}
 
+	if tltoCacheDir := os.Getenv("THINLTO_CACHE_DIR"); tltoCacheDir != "" {
+		sandboxArgs = append(sandboxArgs, "-B", tltoCacheDir)
+	}
+
 	// Stop nsjail from parsing arguments
 	sandboxArgs = append(sandboxArgs, "--")
 
