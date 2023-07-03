@@ -97,55 +97,58 @@ func (lto *lto) flags(ctx BaseModuleContext, flags Flags) Flags {
 	}
 
 	if lto.LTO(ctx) {
-		var ltoCFlag string
-		var ltoLdFlag string
+		var ltoCFlags []string
+		var ltoLdFlags []string
+
 		if lto.ThinLTO() {
-			ltoCFlag = "-flto=thin -fsplit-lto-unit"
-			ltoLdFlag = "-Wl,--lto-O3"
-			flags.Local.CFlags = append(flags.Local.CFlags, "-O3")
+			ltoCFlags = append(ltoCFlags, "-flto=thin -fsplit-lto-unit")
+			ltoLdFlags = append(ltoLdFlags, "-Wl,--lto-O3")
+			ltoCFlags = append(ltoCFlags, "-O3")
 		} else if lto.FullLTO() {
-			ltoCFlag = "-flto"
-			ltoLdFlag = "-Wl,--lto-O3"
-			flags.Local.CFlags = append(flags.Local.CFlags, "-O3")
+			ltoCFlags = append(ltoCFlags, "-flto")
+			ltoLdFlags = append(ltoLdFlags,"-Wl,--lto-O3")
+			ltoCFlags = append(ltoCFlags, "-O3")
 		} else {
-			ltoCFlag = "-flto=thin -fsplit-lto-unit"
-			ltoLdFlag = "-Wl,--lto-O0"
+			// The module did not explicitly turn on LTO. Only leverage LTO's
+			// better dead code elinmination and CFG simplification, but do
+			// not perform costly optimizations for a balance between compile
+			// time, binary size and performance.
+			ltoCFlags = append(ltoCFlags, "-flto=thin -fsplit-lto-unit")
+			ltoLdFlags = append(ltoLdFlags, "-Wl,--lto-O0")
 		}
 
-		flags.Local.CFlags = append(flags.Local.CFlags, ltoCFlag)
-		flags.Local.AsFlags = append(flags.Local.AsFlags, ltoCFlag)
-		flags.Local.LdFlags = append(flags.Local.LdFlags, ltoCFlag)
-		flags.Local.LdFlags = append(flags.Local.LdFlags, ltoLdFlag)
-
 		if !ctx.isPgoCompile() && !ctx.isAfdoCompile() {
-			flags.Local.LdFlags = append(flags.Local.LdFlags, "-Wl,-mllvm,-inline-threshold=600")
-			flags.Local.LdFlags = append(flags.Local.LdFlags, "-Wl,-mllvm,-inlinehint-threshold=750")
-			flags.Local.LdFlags = append(flags.Local.LdFlags, "-Wl,-mllvm,-unroll-threshold=600")
+			ltoLdFlags = append(ltoLdFlags, "-Wl,-mllvm,-inline-threshold=600")
+			ltoLdFlags = append(ltoLdFlags, "-Wl,-mllvm,-inlinehint-threshold=750")
+			ltoLdFlags = append(ltoLdFlags, "-Wl,-mllvm,-unroll-threshold=600")
 		}
 
 		if Bool(lto.Properties.Whole_program_vtables) {
-			flags.Local.CFlags = append(flags.Local.CFlags, "-fwhole-program-vtables")
+			ltoCFlags = append(ltoCFlags, "-fwhole-program-vtables")
 		}
 
 		if (lto.DefaultThinLTO(ctx) || lto.ThinLTO()) && ctx.Config().IsEnvTrue("USE_THINLTO_CACHE") && lto.useClangLld(ctx) {
 			// Set appropriate ThinLTO cache policy
 			cacheDirFormat := "-Wl,--thinlto-cache-dir="
 			cacheDir := android.PathForOutput(ctx, "thinlto-cache").String()
-			flags.Local.LdFlags = append(flags.Local.LdFlags, cacheDirFormat+cacheDir)
+			ltoLdFlags = append(ltoLdFlags, cacheDirFormat+cacheDir)
 
 			// Limit the size of the ThinLTO cache to the lesser of 10% of available
 			// disk space and 10GB.
 			cachePolicyFormat := "-Wl,--thinlto-cache-policy="
 			policy := "cache_size=10%:cache_size_bytes=10g"
-			flags.Local.LdFlags = append(flags.Local.LdFlags, cachePolicyFormat+policy)
+			ltoLdFlags = append(ltoLdFlags, cachePolicyFormat+policy)
 		}
 
 		// If the module does not have a profile, be conservative and limit cross TU inline
 		// limit to 40 LLVM IR instructions, to balance binary size increase and performance.
 		if !ctx.isPgoCompile() && !ctx.isAfdoCompile() {
-			flags.Local.LdFlags = append(flags.Local.LdFlags,
-				"-Wl,-plugin-opt,-import-instr-limit=40")
+			ltoLdFlags = append(ltoLdFlags, "-Wl,-plugin-opt,-import-instr-limit=40")
 		}
+		flags.Local.CFlags = append(flags.Local.CFlags, ltoCFlags...)
+		flags.Local.AsFlags = append(flags.Local.AsFlags, ltoCFlags...)
+		flags.Local.LdFlags = append(flags.Local.LdFlags, ltoCFlags...)
+		flags.Local.LdFlags = append(flags.Local.LdFlags, ltoLdFlags...)
 	}
 	return flags
 }
