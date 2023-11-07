@@ -145,6 +145,13 @@ func (lto *lto) flags(ctx BaseModuleContext, flags Flags) Flags {
 		if !ctx.isPgoCompile() && !ctx.isAfdoCompile() {
 			ltoLdFlags = append(ltoLdFlags, "-Wl,-plugin-opt,-import-instr-limit=40")
 		}
+
+		// Register allocation MLGO flags for ARM64.
+		if ctx.Arch().ArchType == android.Arm64 {
+			ltoCFlags = append(ltoCFlags, "-mllvm -regalloc-enable-advisor=release")
+			ltoLdFlags = append(ltoLdFlags, "-Wl,-mllvm,-regalloc-enable-advisor=release")
+		}
+
 		flags.Local.CFlags = append(flags.Local.CFlags, ltoCFlags...)
 		flags.Local.AsFlags = append(flags.Local.AsFlags, ltoCFlags...)
 		flags.Local.LdFlags = append(flags.Local.LdFlags, ltoCFlags...)
