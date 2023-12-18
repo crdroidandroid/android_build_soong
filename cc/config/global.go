@@ -134,9 +134,6 @@ var (
 		// color codes if it is not running in a terminal.
 		"-fcolor-diagnostics",
 
-		// Turn off FMA which got enabled by default in clang-r445002 (http://b/218805949)
-		"-ffp-contract=off",
-
 		// Google C++ style does not allow exceptions, turn them off by default.
 		"-fno-exceptions",
 
