@@ -139,7 +139,7 @@ var (
 			"-D__ARM_FEATURE_LPAE=1",
 		},
 		"cortex-a76": []string{
-			"-mcpu=cortex-a75",
+			"-mcpu=cortex-a76+crypto+crc",
 			"-mfpu=neon-fp-armv8",
 			// Fake an ARM compiler flag as these processors support LPAE which clang
 			// don't advertise.
