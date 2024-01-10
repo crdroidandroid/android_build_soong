@@ -101,7 +101,6 @@ func (lto *lto) flags(ctx BaseModuleContext, flags Flags) Flags {
 		if lto.ThinLTO() {
 			ltoCFlags = append(ltoCFlags, "-flto=thin -fsplit-lto-unit")
 			ltoLdFlags = append(ltoLdFlags, "-Wl,--lto-O3")
-			ltoCFlags = append(ltoCFlags, "-O3")
 		} else {
 			// The module did not explicitly turn on LTO. Only leverage LTO's
 			// better dead code elinmination and CFG simplification, but do
@@ -111,12 +110,7 @@ func (lto *lto) flags(ctx BaseModuleContext, flags Flags) Flags {
 			ltoLdFlags = append(ltoLdFlags, "-Wl,--lto-O0")
 		}
 
-		if !ctx.isPgoCompile() && !ctx.isAfdoCompile() {
-			ltoLdFlags = append(ltoLdFlags, "-Wl,-mllvm,-inline-threshold=600")
-			ltoLdFlags = append(ltoLdFlags, "-Wl,-mllvm,-inlinehint-threshold=750")
-			ltoLdFlags = append(ltoLdFlags, "-Wl,-mllvm,-unroll-threshold=600")
-		}
-
+		ltoCOnlyFlags = append(ltoCOnlyFlags, "-O3")
 		// Enable Polly globally
 		ltoCOnlyFlags = append(ltoCOnlyFlags, "-mllvm -polly")
 		ltoCOnlyFlags = append(ltoCOnlyFlags, "-mllvm -polly-parallel")
