@@ -273,6 +273,9 @@ com\.google\.wear\..*
 lineageos\.platform
 org\.lineageos\.platform\.internal
 
+# LMODroid adds
+com\.libremobileos\..*
+
 # NT adds
 com\.nothing
 com\.nothing\..*
