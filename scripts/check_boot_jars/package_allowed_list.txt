@@ -273,6 +273,9 @@ com\.google\.wear\..*
 lineageos\.platform
 org\.lineageos\.platform\.internal
 
+# LMODroid adds
+com\.libremobileos\..*
+
 # MTK adds
 com\.mediatek
 com\.mediatek\..*
