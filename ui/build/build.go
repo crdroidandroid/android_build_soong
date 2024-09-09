@@ -21,6 +21,7 @@ import (
 	"path/filepath"
 	"sync"
 	"text/template"
+	"time"
 
 	"android/soong/elf"
 	"android/soong/ui/metrics"
@@ -66,12 +67,9 @@ func SetupOutDir(ctx Context, config Config) {
 	// (to allow for source control that uses something other than numbers),
 	// but must be a single word and a valid file name.
 	//
-	// If no BUILD_NUMBER is set, create a useful "I am an engineering build"
-	// value.  Make it start with a non-digit so that anyone trying to parse
-	// it as an integer will probably get "0". This value used to contain
-	// a timestamp, but now that more dependencies are tracked in order to
-	// reduce the importance of `m installclean`, changing it every build
-	// causes unnecessary rebuilds for local development.
+	// If no BUILD_NUMBER is set, create a useful "I am an engineering build
+	// from this date/time" value.  Make it start with a non-digit so that
+	// anyone trying to parse it as an integer will probably get "0".
 	buildNumber, ok := config.environ.Get("BUILD_NUMBER")
 	if ok {
 		writeValueIfChanged(ctx, config, config.OutDir(), "file_name_tag.txt", buildNumber)
@@ -80,7 +78,7 @@ func SetupOutDir(ctx Context, config Config) {
 		if username, ok = config.environ.Get("BUILD_USERNAME"); !ok {
 			ctx.Fatalln("Missing BUILD_USERNAME")
 		}
-		buildNumber = fmt.Sprintf("eng.%.6s", username)
+		buildNumber = fmt.Sprintf("eng.%.6s.%s", username, time.Now().Format("20060102.150405" /* YYYYMMDD.HHMMSS */))
 		writeValueIfChanged(ctx, config, config.OutDir(), "file_name_tag.txt", username)
 	}
 	// Write the build number to a file so it can be read back in
