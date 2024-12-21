@@ -106,6 +106,8 @@ func installClean(ctx Context, config Config) {
 		return filepath.Join(productOutPath, path)
 	}
 
+	removeGlobs(ctx, filepath.Join(config.OutDir(), "soong", "*.glob*"))
+
 	// Host bin, frameworks, and lib* are intentionally omitted, since
 	// otherwise we'd have to rebuild any generated files created with
 	// those tools.
