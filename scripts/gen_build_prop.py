@@ -347,6 +347,8 @@ def append_additional_system_props(args):
     # Target is secure in user builds.
     props.append("ro.secure=1")
     props.append("security.perf_harden=1")
+    # at least one app (Revolut) refuses to work with yellow verifiedbootstate
+    props.append("ro.appcompat_override.ro.boot.verifiedbootstate=green")
 
     if config["BuildVariant"] == "user":
       # Disable debugging in plain user builds.
