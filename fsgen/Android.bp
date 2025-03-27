@@ -31,4 +31,5 @@ bootstrap_go_package {
 
 soong_filesystem_creator {
     name: "soong_filesystem_creator",
+    enabled: false,
 }
