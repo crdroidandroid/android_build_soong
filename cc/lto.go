@@ -15,7 +15,10 @@
 package cc
 
 import (
+	"errors"
 	"fmt"
+	"log"
+	"os"
 
 	"github.com/google/blueprint"
 	"github.com/google/blueprint/proptools"
@@ -124,6 +127,13 @@ func (lto *lto) flags(ctx ModuleContext, flags Flags) Flags {
 			cacheDirFormat := "-Wl,--thinlto-cache-dir="
 			if tltoCacheDir := ctx.Config().Getenv("THINLTO_CACHE_DIR"); tltoCacheDir != "" {
 				cacheDir = tltoCacheDir
+				// make sure tltoCacheDir exists
+				if _, err := os.Stat(tltoCacheDir); errors.Is(err, os.ErrNotExist) {
+					err := os.MkdirAll(tltoCacheDir, os.ModePerm)
+					if err != nil {
+						log.Println(err)
+					}
+				}
 			} else {
 				cacheDir = android.PathForOutput(ctx, "thinlto-cache").String()
 			}
