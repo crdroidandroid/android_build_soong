@@ -28,8 +28,6 @@ TEST_KEY_DIR = "build/make/target/product/security"
 def get_build_variant(product_config):
   if product_config["Eng"]:
     return "eng"
-  elif product_config["Debuggable"]:
-    return "userdebug"
   else:
     return "user"
 
