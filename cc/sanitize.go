@@ -64,7 +64,7 @@ var (
 	cfiBlocklistFilename = "cfi_blocklist.txt"
 	cfiEnableFlag        = "-fsanitize=cfi"
 	cfiCrossDsoFlag      = "-fsanitize-cfi-cross-dso"
-	cfiCflags            = []string{"-flto", "-funified-lto", cfiCrossDsoFlag,
+	cfiCflags            = []string{"-flto", cfiCrossDsoFlag,
 		sanitizeIgnorelistPrefix + cfiBlocklistPath + "/" + cfiBlocklistFilename}
 	// -flto and -fvisibility are required by clang when -fsanitize=cfi is
 	// used, but have no effect on assembly files
