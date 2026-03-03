@@ -140,9 +140,9 @@ func (lto *lto) flags(ctx ModuleContext, flags Flags) Flags {
 			ltoLdFlags = append(ltoLdFlags, cacheDirFormat+cacheDir)
 
 			// Limit the size of the ThinLTO cache to the lesser of 10% of available
-			// disk space and 10GB.
+			// disk space and 15GB.
 			cachePolicyFormat := "-Wl,--thinlto-cache-policy="
-			policy := "cache_size=10%:cache_size_bytes=10g"
+			policy := "cache_size=10%:cache_size_bytes=15g"
 			ltoLdFlags = append(ltoLdFlags, cachePolicyFormat+policy)
 		}
 
