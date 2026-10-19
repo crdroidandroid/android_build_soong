@@ -131,6 +131,9 @@ def parse_args():
   if any(v.startswith("BuildFingerprint=") for v in overrides) \
           and not any(v.startswith("BuildSystemFingerprint=") for v in overrides):
       config["BuildSystemFingerprint"] = config["BuildFingerprint"]
+  if any(v.startswith("BuildDesc=") for v in overrides) \
+          and not any(v.startswith("BuildSystemDesc=") for v in overrides):
+      config["BuildSystemDesc"] = config["BuildDesc"]
   if args.partition == "system":
     config['ProductBrand'] = config['SystemBrand']
     config['DeviceName'] = config['SystemDevice']
