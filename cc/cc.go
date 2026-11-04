@@ -635,6 +635,14 @@ type BaseProperties struct {
 
 	Installable *bool `android:"arch_variant"`
 
+	// Controls installation of the vendor image variant without removing that
+	// variant from the dependency graph. Defaults to true.
+	Vendor_variant_installable *bool
+
+	// Controls installation of the system_ext image variant without removing
+	// that variant from the dependency graph. Defaults to true.
+	System_ext_variant_installable *bool
+
 	// Set by factories of module types that can only be referenced from variants compiled against
 	// the SDK.
 	AlwaysSdk bool `blueprint:"mutated"`
@@ -2912,7 +2920,18 @@ func (c *Module) maybeUnhideFromMake() {
 // maybeInstall is called at the end of both GenerateAndroidBuildActions to run the
 // install hooks for installable modules, like binaries and tests.
 func (c *Module) maybeInstall(ctx ModuleContext, apexInfo android.ApexInfo) {
-	if !proptools.BoolDefault(c.Installable(), true) {
+	if c.InstallInSystemExt() && !c.InVendorOrProduct() &&
+		!proptools.BoolDefault(c.Properties.System_ext_variant_installable, true) {
+		// Keep the system_ext module visible to Make so HIDL-generated vendor
+		// variants can still be exported as <name>.vendor. Skip only this
+		// variant's installation, leaving the stock system_ext blob authoritative.
+		c.SkipInstall()
+	} else if c.InVendor() && !proptools.BoolDefault(c.Properties.Vendor_variant_installable, true) {
+		// Keep the vendor variant available to Soong link dependencies while
+		// preventing it from producing an AndroidMk install rule.
+		c.HideFromMake()
+		c.SkipInstall()
+	} else if !proptools.BoolDefault(c.Installable(), true) {
 		// If the module has been specifically configure to not be installed then
 		// hide from make as otherwise it will break when running inside make
 		// as the output path to install will not be specified. Not all uninstallable
